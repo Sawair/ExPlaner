@@ -1,4 +1,4 @@
-name: ASP.NET Core CI
+name: Publish master
 
 on: 
   push:
@@ -8,13 +8,26 @@ on:
 jobs:
   build:
 
+    name: Build and publish
     runs-on: ubuntu-latest
             
     steps:
-    - uses: actions/checkout@v1
-    - name: Setup .NET Core
+
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Setup .NET Core 3.0-pre8
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.0.100-preview8-013656
-    - name: Build with dotnet
+
+    - name: Build (core 3.0-pre8)
       run: dotnet build --configuration Release
+
+    - name: Publish
+      run: dotnet publish --configuration Release --no-build -o ./publish/
+      
+    - uses: actions/upload-artifact@master
+      with:
+        name: ExPlaner
+        path: ./publish/
