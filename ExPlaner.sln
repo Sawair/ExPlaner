@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29201.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExPlaner.API", "ExPlaner.API\ExPlaner.API.csproj", "{5E267219-5086-4672-8BD9-D585CE41D4D3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5E267219-5086-4672-8BD9-D585CE41D4D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E267219-5086-4672-8BD9-D585CE41D4D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E267219-5086-4672-8BD9-D585CE41D4D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E267219-5086-4672-8BD9-D585CE41D4D3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {ED207E14-7470-4CF5-8DE7-37F4CA792048}
+	EndGlobalSection
+EndGlobal
