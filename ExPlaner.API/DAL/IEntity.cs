@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ExPlaner.API.DAL
 {
-    interface IEntity
+    public interface IEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
