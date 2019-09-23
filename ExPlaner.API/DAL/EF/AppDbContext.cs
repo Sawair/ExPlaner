@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -17,5 +16,8 @@ namespace ExPlaner.API.DAL.EF
         {
             base.OnModelCreating(builder);
         }
+
+        public DbSet<Expense> Expense { get; set; }
+        public DbSet<Currency> Currency { get; set; }
     }
 }
