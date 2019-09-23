@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace ExPlaner.API.DAL.Repository
 {
-    interface IRepository<T> where T : IEntity
+    public interface IRepository<T> where T : IEntity
     {
         void Insert(T entity);
         void Remove(T entity);
         IQueryable<T> GetAll();
+        IQueryable<T> GetAllPaged(int pageNumber, int pageSize);
         T GetById(Guid id);
     }
 }

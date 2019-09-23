@@ -6,6 +6,8 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using ExPlaner.API.DAL.EF;
+using ExPlaner.API.DAL.Repository;
+using ExPlaner.API.Service;
 using ExPlaner.API.ViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -24,12 +26,14 @@ namespace ExPlaner.API.Controller
         private readonly UserManager<AppUser> _userManager;
         private readonly IConfiguration _configuration;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly UserRepository _userRepository;
 
-        public AccountsController(UserManager<AppUser> userManager, IConfiguration configuration, SignInManager<AppUser> signInManager)
+        public AccountsController(UserManager<AppUser> userManager, IConfiguration configuration, SignInManager<AppUser> signInManager, UserRepository userRepository)
         {
             _userManager = userManager;
             _configuration = configuration;
             _signInManager = signInManager;
+            _userRepository = userRepository;
         }
 
         [HttpPost]
@@ -57,11 +61,23 @@ namespace ExPlaner.API.Controller
             var result = await _signInManager.PasswordSignInAsync(login.Email, login.Password, false, false);
             if (!result.Succeeded) return BadRequest(new LoginResult { Successful = false, Error = "Username or password are invalid." });
 
+            var userId = _userRepository.GetUserId(login.Email);
+
             var claims = new[]
             {
-                new Claim(ClaimTypes.Name, login.Email)
+                new Claim(ClaimTypes.Email, login.Email),
+                new Claim(ClaimTypes.NameIdentifier, userId), 
             };
 
+            var token = GetSecurityToken(claims);
+
+            return Ok(new LoginResult { Successful = true, Token = new JwtSecurityTokenHandler().WriteToken(token) });
+        }
+
+
+
+        private JwtSecurityToken GetSecurityToken(Claim[] claims)
+        {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSecurityKey"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var expiry = DateTime.Now.AddHours(Convert.ToDouble(_configuration["JwtExpiryInHours"]));
@@ -73,8 +89,7 @@ namespace ExPlaner.API.Controller
                 expires: expiry,
                 signingCredentials: creds
             );
-
-            return Ok(new LoginResult { Successful = true, Token = new JwtSecurityTokenHandler().WriteToken(token) });
+            return token;
         }
     }
 }

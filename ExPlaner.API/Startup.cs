@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ExPlaner.API.DAL.EF;
+using ExPlaner.API.DAL.Repository;
+using ExPlaner.API.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -57,6 +59,12 @@ namespace ExPlaner.API
                 });
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            services.AddScoped<IUserDependentUnitOfWork<Expense>, UserDependentUnitOfWork<Expense>>();
+            services.AddScoped<IRepository<Currency>, Repository<Currency>>();
+            services.AddScoped<UserRepository, UserRepository>();
+            services.AddScoped<AccountService, AccountService>();
+
 
             services.AddControllers();
         }
